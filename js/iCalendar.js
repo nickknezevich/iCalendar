@@ -26,7 +26,6 @@
  *
  */
 
-
 class iCalendar {
     constructor(target) {
         if (!target) {
@@ -59,10 +58,10 @@ class iCalendar {
         this.selectYear = this.currentYear;
         this.selectMonth = this.currentMonth;
         this.calendarBody = document.querySelector('#cal-frame table.curr tbody');
+        this.events = [];
     }
 
     render() {
-        //document.getElementById(this.target).innerHTML = 'code for the calendar';
         let structure = '<div id="cal"><div class="header"><a href="" class="prev"><span class="left button" id="prev"> &lang; </span></a><span class="month-year" id="label"> June 2020 </span><a href="" class="next"><span class="right button" id="next"> &rang; </span></a></div>';
         structure += '<table id="days"><td>sun</td><td class="weekday">mon</td><td class="weekday">tue</td><td class="weekday">wed</td><td class="weekday">thu</td><td class="weekday">fri</td><td>sat</td></table>';
         structure += '<div id="cal-frame"><table class="curr"><tbody id="calendar-body"></tbody></table></div>';
@@ -112,7 +111,8 @@ class iCalendar {
                     let div = document.createElement('div');
                     div.setAttribute('class', "day");
                     let a = document.createElement('a');
-                    a.setAttribute('data-id', date);
+                    let actualMonth = this.currentMonth + 1;
+                    a.setAttribute('data-id', this.currentYear + '-' + actualMonth + '-' + date);
                     a.setAttribute('class', 'calendarLink');
                     a.appendChild(cellText);
                     div.appendChild(a);
@@ -181,17 +181,37 @@ class iCalendar {
         document.addEventListener('click', function(event) {
             if (event.target.classList.contains('calendarLink')) {
                 //remove previously selected element
-                let calendarLinks = document.getElementById('calendar-body').getElementsByClassName('selected');
+                let calendarLinks = document.getElementById('calendar-body').getElementsByClassName('selected-link');
                 for (var i = 0; i < calendarLinks.length; i++) {
-                    calendarLinks[i].classList.remove('selected');
+                    calendarLinks[i].classList.remove('selected-link');
                 }
                 //remove previously selected element
                 let selectedElement = event.target;
-                selectedElement.parentNode.setAttribute('class', "selected");
+                selectedElement.classList.add("selected-link");
                 console.log('Calendar link clicked!');
                 event.preventDefault();
             }
         }, false);
     }
 
+    addEvent(iCalendarEvent) {
+        this.events.push(iCalendarEvent);
+    }
+
+    getEvents() {
+        return this.events;
+    }
+
+}
+
+class iCalendarEvent {
+    constructor() {
+        this.id = null;
+        this.start = "";
+        this.end = "";
+        this.title = "";
+        this.body = "";
+        this.url = "";
+        this.color = "";
+    }
 }
