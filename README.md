@@ -1,11 +1,11 @@
 # iCalendar
 Simple iPhone styled Vanilla JavaScript Calendar Library
 
-'''html
+```html
 <script src="..js/iCalendar.css"></script>
 <script src="..js/iCalendar.es5.js"></script>
-'''
-'''javascript
+```
+```javascript
 var iCal = new iCalendar('calendar');
 iCal.render();
 
@@ -18,4 +18,4 @@ iCal.render();
 document.addEventListener('iCalendarDateSelected', function(event) {
             console.log(iCal.selectedDate);
 });
-'''
+```
